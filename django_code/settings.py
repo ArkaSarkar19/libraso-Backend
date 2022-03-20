@@ -79,11 +79,36 @@ WSGI_APPLICATION = 'django_code.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
+
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'h4oKUxijCW',
+        'USER': 'h4oKUxijCW',
+        'PASSWORD' : 'TpwlFwluu2',
+        'HOST' : 'remotemysql.com',
+        'PORT' : '3306',
     }
+
 }
+
+# You have successfully created a new database. The details are below.
+
+# Username: h4oKUxijCW
+
+# Database name: h4oKUxijCW
+
+# Password: TpwlFwluu2
+
+# Server: remotemysql.com
+
+# Port: 3306
+
+# These are the username and password to log in to your database and phpMyAdmin
+
 
 
 # Password validation
