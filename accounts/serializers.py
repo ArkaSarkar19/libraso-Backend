@@ -27,7 +27,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         #     validated_data['first_name'],
         #     validated_data['last_name'], validated_data['gender'], validated_data['partner_id'], validated_data['sheroes_id']
         # )
-        user=User.objects.create_student_user(**validated_data)
+        user=User.objects.create_user(**validated_data)
         return user
 
 #Login Serializer

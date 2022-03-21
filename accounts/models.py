@@ -2,50 +2,46 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser,PermissionsMixin
 )
+from django.utils import timezone
+
 from django_code import settings
 # Create your models here.
 User = settings.AUTH_USER_MODEL
 
 class UserManager(BaseUserManager):
-    def create_student_user(self, email, password=None):
+    def create_user(self, username, email, password,
+                     is_staff, is_superuser, **extra_fields):
         """
         Creates and saves a User with the given email and password.
         """
-        if not email:
-            raise ValueError('Users must have an email address')
 
-        user = self.model(
-            email=self.normalize_email(email),
-        )
-
+        now = timezone.now()
+        if not username:
+            raise ValueError('The given username must be set')
+        email = self.normalize_email(email)
+        user = self.model(username=username, email=email,
+                          is_staff=is_staff,
+                          is_superuser=is_superuser,
+                           **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
+
         return user
 
-    def create_professor_user(self, email, password):
+    def create_professor_user(self, username, email=None, password=None, **extra_fields):
         """
         Creates and saves a staff user with the given email and password.
         """
-        user = self.create_user(
-            email,
-            password=password,
-        )
-        user.staff = True
-        user.save(using=self._db)
-        return user
 
-    def create_admin_user(self, email, password):
+        return self.create_user(username, email, password, True,False,**extra_fields)
+
+    def create_admin_user(self, username, email=None, password=None, **extra_fields):
         """
         Creates and saves a superuser with the given email and password.
         """
-        user = self.create_user(
-            email,
-            password=password,
-        )
-        user.staff = True
-        user.admin = True
-        user.save(using=self._db)
-        return user
+
+        return self.create_user(username, email, password, True,True,**extra_fields)
+
 
 
 class User(AbstractBaseUser,PermissionsMixin):
