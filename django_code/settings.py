@@ -46,6 +46,11 @@ INSTALLED_APPS = [
     "accounts"
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES':
+    ('knox.auth.TokenAuthentication',)
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -75,7 +80,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'django_code.wsgi.application'
-AUTH_USER_MODEL = "accounts.User"
+AUTH_USER_MODEL = "accounts.OurUser"
 
 
 # Database

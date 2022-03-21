@@ -3,7 +3,7 @@ from django.core.validators import MinLengthValidator, int_list_validator
 from django.db.models import CheckConstraint, Q
 from django.forms import CharField
 from django.db.models.functions import Length
-from accounts.models import User
+from accounts.models import OurUser
 def subject_validate(value):
     subjects=["maths","science","cs","biology","desgin"]
     if value.lower() in subjects:
@@ -44,7 +44,7 @@ class Book(models.Model):
 
 class Fine(models.Model):
 
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE,db_column = "user_id")
+    user_id = models.ForeignKey(OurUser, on_delete=models.CASCADE,db_column = "user_id")
     amount = models.FloatField(max_length=256)
     due_date = models.DateTimeField(null=True)
     book_id = models.ForeignKey(Book, on_delete=models.CASCADE, db_column = 'book_id')

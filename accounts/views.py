@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 import sendgrid
-from .models  import User
-from .serializers import UserSerializer, LoginSerializer, RegisterSerializer
+from .models  import OurUser
+from .serializers import OurUsersSerializer, LoginSerializer, RegisterSerializer
 from rest_framework import generics, permissions
 from sendgrid.helpers.mail import Mail, Email, To, Content
 from rest_framework.response import Response
@@ -10,8 +10,8 @@ from knox.models import AuthToken
 
 # Create your views here.
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all().order_by('id')
-    serializer_class = UserSerializer
+    queryset = OurUser.objects.all().order_by('id')
+    serializer_class = OurUsersSerializer
 
 
 
@@ -55,10 +55,10 @@ class RegisterAPI(generics.GenericAPIView):
         # except Exception as e:
         #     print("Error")
         #     print(e.message)
-        # return Response({
-        #     "user": OurUsersSerializers(user, context=self.get_serializer_context()).data,
-        #     "token": AuthToken.objects.create(user)[1]
-        # })
+        return Response({
+            "user": OurUsersSerializer(user, context=self.get_serializer_context()).data,
+            "token": AuthToken.objects.create(user)[1]
+        })
 
 #Login API
 class LoginAPI(generics.GenericAPIView):
@@ -81,7 +81,7 @@ class LoginAPI(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data
         return Response({
-            "user": UserSerializer(user, context=self.get_serializer_context()).data,
+            "user": OurUsersSerializer(user, context=self.get_serializer_context()).data,
             "token": AuthToken.objects.create(user)[1]
         })
 
@@ -91,7 +91,7 @@ class UserAPI(generics.RetrieveAPIView):
         permissions.IsAuthenticated,
     ]
 
-    serializer_class=UserSerializer
+    serializer_class=OurUsersSerializer
 
     def get_object(self):
         #looks at the token in the request and returns the user associated with that token

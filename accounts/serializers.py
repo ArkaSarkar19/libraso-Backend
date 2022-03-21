@@ -1,19 +1,18 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 from rest_framework.response import Response
-from .models import User
+from .models import OurUser
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class OurUsersSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ("id",'password', "first_name', 'last_name", "email", "is_active", "staff", "admin")
-        
+        model = OurUser
+        fields = "__all__"        
 
 
 #Register Serializer
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = OurUser
         fields = ('id', 'username', 'email', 'first_name', 'last_name', 'gender',  'user_type', 'password')
         extra_kwargs = {'password': {'write_only':True}}
 
@@ -27,7 +26,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         #     validated_data['first_name'],
         #     validated_data['last_name'], validated_data['gender'], validated_data['partner_id'], validated_data['sheroes_id']
         # )
-        user=User.objects.create_user(**validated_data)
+        user=OurUser.objects.create_user(**validated_data)
         return user
 
 #Login Serializer
