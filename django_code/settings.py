@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "rest_framework",
+    "rest_framework.authtoken",
+    "knox",
     "accounts"
 ]
 
@@ -73,6 +75,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'django_code.wsgi.application'
+AUTH_USER_MODEL = "accounts.User"
 
 
 # Database

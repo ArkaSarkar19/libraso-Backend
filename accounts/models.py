@@ -1,13 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import (
-    BaseUserManager, AbstractBaseUser
+    BaseUserManager, AbstractBaseUser,PermissionsMixin
 )
-
+from django_code import settings
 # Create your models here.
-
+User = settings.AUTH_USER_MODEL
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password=None):
+    def create_student_user(self, email, password=None):
         """
         Creates and saves a User with the given email and password.
         """
@@ -22,7 +22,7 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_staffuser(self, email, password):
+    def create_professor_user(self, email, password):
         """
         Creates and saves a staff user with the given email and password.
         """
@@ -34,7 +34,7 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, password):
+    def create_admin_user(self, email, password):
         """
         Creates and saves a superuser with the given email and password.
         """
@@ -48,22 +48,47 @@ class UserManager(BaseUserManager):
         return user
 
 
-class User(AbstractBaseUser):
-    objects = UserManager()
+class User(AbstractBaseUser,PermissionsMixin):
+
+    class GenderType(models.TextChoices):
+        MALE = 'M', 'Male'
+        FEMALE = 'F','Short'
+        OTHER = 'O','Other'
+
+    class UserType(models.TextChoices):
+        ADMIN = 'AD', 'Admin'
+        PROFESSOR = 'PR','PROFESSOR'
+        STUDENT = 'ST','STUDENT'
 
     email = models.EmailField(
-        verbose_name='email address',
+        verbose_name='email',
         max_length=255,
         unique=True,
     )
-    
+
+    objects = UserManager()
+    first_name = models.CharField(max_length=500, null = True)
+    last_name = models.CharField(max_length=500, null = True)
+
+
+    username = models.CharField(max_length=30, unique=True)
     is_active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False) # a admin user; non super-user
     admin = models.BooleanField(default=False) # a superuser
+    email = models.EmailField(verbose_name='email', max_length=64, unique=True)
 
+    gender = models.CharField(
+        max_length=2,
+        choices = GenderType.choices,
+        default = GenderType.FEMALE
+    )
     # notice the absence of a "Password field", that is built in.
-
-    USERNAME_FIELD = 'email'
+    user_type = models.CharField(
+        max_length=2,
+        choices = UserType.choices,
+        default = UserType.STUDENT
+    )
+    USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = [] # Email & Password are required by default.
 
     def get_full_name(self):
