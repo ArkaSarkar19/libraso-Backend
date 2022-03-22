@@ -13,4 +13,4 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
 class FineSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Fine
-        fields = ("user_id", "amount","due_date")
+        fields = ("user_id", "amount","due_date", "book_id")
