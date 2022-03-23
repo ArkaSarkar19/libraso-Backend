@@ -50,13 +50,17 @@ class GetFineAPI(generics.GenericAPIView):
 # @api_view(['GET'])    
 def get_fine_user(request : Request, id ):
     print("Requist from front end", request, id)
+    arr=[]
     if id is not None:
         item = Fine.objects.filter(user_id = id)
         for i in item:
-            print(i.amount_due)                                                               
+           
+            temp={"amount_due":i.amount_due,"id":i.id,"amount_paid":i.amount_paid,"due_date":i.due_date,"user_id":i.user_id,"book_id":i.book_id}
+            print(i.amount_due)         
+            arr.append(temp)                                  
         # print(item)
         # serializer = FineSerializer(item)
-        return JsonResponse({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+        return JsonResponse({"status": "success", "data": arr}, status=status.HTTP_200_OK)
         
     item = Fine.objects.all().order_by('due_date')
     serializer = FineSerializer(item)
