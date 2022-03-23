@@ -42,7 +42,7 @@ def issued_books(request,id):
         return JsonResponse(tutorial_serializer.data) 
 
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
     
