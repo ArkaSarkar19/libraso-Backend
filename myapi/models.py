@@ -4,6 +4,8 @@ from django.db.models import CheckConstraint, Q
 from django.forms import CharField
 from django.db.models.functions import Length
 from accounts.models import OurUser
+from django.db.models import F
+
 def subject_validate(value):
     subjects=["maths","science","cs","biology","desgin"]
     if value.lower() in subjects:
@@ -45,14 +47,27 @@ class Book(models.Model):
 class Fine(models.Model):
 
     user_id = models.ForeignKey(OurUser, on_delete=models.CASCADE,db_column = "user_id")
-    amount = models.FloatField(max_length=256)
+    amount_due = models.FloatField(max_length=256)
+    amount_paid=models.FloatField(max_length=256)
     due_date = models.DateTimeField(null=True)
     book_id = models.ForeignKey(Book, on_delete=models.CASCADE, db_column = 'book_id')
 
     class Meta:
         db_table = 'Fine'
         unique_together = (('user_id', 'book_id'),)
+        models.CheckConstraint(
+                check=Q(amount_due__gte=F("amount_paid")) ,
+                name='Fine_paid_due')
     
+    #calculate the fine as rs10* days after due day -amount_paid
     
 
     
+class Issued(models.Model):
+    user_id = models.ForeignKey(OurUser, on_delete=models.CASCADE,db_column = "user_id")
+    due_date = models.DateTimeField(null=True)
+    issued_date=models.DateTimeField(null=False)
+    book_id = models.ForeignKey(Book, on_delete=models.CASCADE, db_column = 'book_id')
+    class Meta:
+        db_table = 'Issued'
+        unique_together = (('user_id', 'book_id'),)
