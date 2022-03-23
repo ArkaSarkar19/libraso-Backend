@@ -6,11 +6,23 @@ from .models import   Book, Fine
 
 
 class BookSerializer(serializers.HyperlinkedModelSerializer):
+
+    title=serializers.CharField(max_length=60)
+    author=serializers.CharField(max_length=60)
+    edition=serializers.IntegerField(null=True)
+    description=serializers.CharField(max_length=256)
+    ISBN=serializers.CharField(max_length=13, primary_key=True)
+    subjects=serializers.CharField(max_length=60)
+
+    rating=serializers.FloatField(null=True)
+    books_available=serializers.CharField(max_length=60)
+    book_Image_url=serializers.URLField(null=True)
+
     class Meta:
         model = Book
-        fields = ("ISBN", "title", "author", "description", "edition","rating","books_available","book_Image_url" )
+        fields = "__all__"
 
 class FineSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Fine
-        fields = ("user_id", "amount","due_date", "book_id")
+        fields = '__all__'

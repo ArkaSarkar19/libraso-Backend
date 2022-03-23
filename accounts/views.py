@@ -20,16 +20,16 @@ class RegisterAPI(generics.GenericAPIView):
     """
     Api to register on out platform.
 
-    Post request on https://sheroes-form.herokuapp.com/auth/register
+    Post request on https://libraso.herokuapp.com/auth/register
 
         Example of Data format to be sent = {
         "username": "itisunderhood998",
-        "email": "manavjeet@gmail.com",
+        "email": "arka@gmail.com",
         "password": "123456",
-        "first_name": "MANAVJeet", 
-        "last_name": "Singh",
+        "first_name": "Arka", 
+        "last_name": "Sarkar",
         "gender": "M",
-        "user_type": "EU"
+        "user_type": "ST"
         }
     """
     serializer_class=RegisterSerializer
@@ -65,7 +65,7 @@ class LoginAPI(generics.GenericAPIView):
     """
     Api to log in out platform.
 
-    Post request on https://sheroes-form.herokuapp.com/auth/login
+    Post request on https://libraso.herokuapp.com/auth/login
 
         Example of Data format to be sent = {
         "username": "itisunderhood998",
