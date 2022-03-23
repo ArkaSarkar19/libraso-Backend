@@ -55,9 +55,7 @@ class Fine(models.Model):
     class Meta:
         db_table = 'Fine'
         unique_together = (('user_id', 'book_id'),)
-        models.CheckConstraint(
-                check=Q(amount_due__gte=F("amount_paid")) ,
-                name='Fine_paid_due')
+        
     
     #calculate the fine as rs10* days after due day -amount_paid
     
