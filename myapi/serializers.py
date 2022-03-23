@@ -1,12 +1,23 @@
 # serializers.py
 from email.policy import default
+from unittest.util import _MAX_LENGTH
 from rest_framework import serializers
+from drf_extra_fields.relations import PresentablePrimaryKeyRelatedField
+from .models import   Book, Fine,Issued,complaint
+from accounts.serializers import OurUsersSerializer, OurUsersDetailSerializer
+from accounts.models import OurUser
 
-from .models import   Book, Fine,Issued
+# class MyRelatedField(serializers.RelatedField):
+#     def to_representation(self, obj):
+#         return {
+#             'id': obj.pk,
+#         }
+class complaintSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = complaint
+        fields = '__all__'
 
-
-
-class BookSerializer(serializers.HyperlinkedModelSerializer):
+class BookSerializer(serializers.ModelSerializer):
 
     title=serializers.CharField(max_length=60)
     author=serializers.CharField(max_length=60)
@@ -23,13 +34,34 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
         model = Book
         fields = "__all__"
 
-class FineSerializer(serializers.HyperlinkedModelSerializer):
+class BookDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Book
+        fields = "__all__"
+ 
+class FineDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Fine
+        fields = "__all__"
+
+class FineSerializer(serializers.ModelSerializer):
+
+    # user_id = PresentablePrimaryKeyRelatedField(
+    #     queryset = OurUser.objects.all(),
+    #     presentation_serializer = OurUsersSerializer)
+    # amount_due = serializers.FloatField()
+    # amount_paid=serializers.FloatField()
+    # due_date = serializers.DateTimeField()
+    # book_id = PresentablePrimaryKeyRelatedField(
+    #     queryset = Book.objects.all(),
+    #     presentation_serializer = BookDetailSerializer)
+
     class Meta:
         model = Fine
         fields = '__all__'
 
 
-class IssuedSerializer(serializers.HyperlinkedModelSerializer):
+class IssuedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Issued
         fields = '__all__'

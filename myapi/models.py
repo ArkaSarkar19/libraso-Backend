@@ -71,3 +71,11 @@ class Issued(models.Model):
     class Meta:
         db_table = 'Issued'
         unique_together = (('user_id', 'book_id'),)
+
+        
+class complaint(models.Model):
+    user_id = models.ForeignKey(OurUser, on_delete=models.CASCADE,db_column = "user_id")
+    title = models.CharField(max_length=300)
+    description=models.CharField(max_length=600)
+    class Meta:
+        db_table = 'complaint'

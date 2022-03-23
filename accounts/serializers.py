@@ -6,9 +6,12 @@ from .models import OurUser
 class OurUsersSerializer(serializers.ModelSerializer):
     class Meta:
         model = OurUser
-        fields = "__all__"        
+        fields = '__all__'      
 
-
+class OurUsersDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OurUser
+        fields = '__all__'     
 #Register Serializer
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
