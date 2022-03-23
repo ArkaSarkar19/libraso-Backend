@@ -1,7 +1,7 @@
 # serializers.py
 from rest_framework import serializers
 
-from .models import   Book, Fine
+from .models import   Book, Fine,Issued
 
 
 
@@ -25,4 +25,10 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
 class FineSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Fine
+        fields = '__all__'
+
+
+class IssuedSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Issued
         fields = '__all__'
