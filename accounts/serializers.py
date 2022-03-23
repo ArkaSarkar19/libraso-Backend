@@ -11,7 +11,8 @@ class OurUsersSerializer(serializers.ModelSerializer):
 class OurUsersDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = OurUser
-        fields = '__all__'     
+        fields = ['id']     
+
 #Register Serializer
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:

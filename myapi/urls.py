@@ -2,6 +2,7 @@ from django.urls import include, path
 from rest_framework import routers
 from . import views
 from .models import Fine
+
 router = routers.DefaultRouter()
 router.register(r'books', views.BookViewSet)
 router.register(r'fines', views.FinesViewSet)
@@ -13,7 +14,8 @@ router.register(r'complaint', views.complaintViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path(r'^books/(?P<id>[0-9]+)$', views.issued_books),
-    path('fines/<int:id>', views.GetFineAPI.as_view())
+    path("userfine/<int:id>", views.get_fine_user, name = "get_fine_user"),
+
+    path("books/<int:id>", views.issued_books),
 
 ]

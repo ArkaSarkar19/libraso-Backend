@@ -37,18 +37,15 @@ class BookSerializer(serializers.ModelSerializer):
 class BookDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        fields = "__all__"
+        fields = ['ISBN']
  
-class FineDetailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Fine
-        fields = "__all__"
+
 
 class FineSerializer(serializers.ModelSerializer):
 
     # user_id = PresentablePrimaryKeyRelatedField(
     #     queryset = OurUser.objects.all(),
-    #     presentation_serializer = OurUsersSerializer)
+    #     presentation_serializer = OurUsersDetailSerializer)
     # amount_due = serializers.FloatField()
     # amount_paid=serializers.FloatField()
     # due_date = serializers.DateTimeField()
