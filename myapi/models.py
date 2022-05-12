@@ -67,6 +67,7 @@ class Issued(models.Model):
     due_date = models.DateTimeField(null=True)
     issued_date=models.DateTimeField(null=False)
     book_id = models.ForeignKey(Book, on_delete=models.CASCADE, db_column = 'book_id')
+    is_issued = models.BooleanField(default=False, db_column = 'is_issued')
     class Meta:
         db_table = 'Issued'
         unique_together = (('user_id', 'book_id'),)

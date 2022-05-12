@@ -5,6 +5,8 @@ from rest_framework import viewsets
 from rest_framework import generics
 from .serializers import BookSerializer, EventSerializer, FineSerializer, IssuedSerializer, complaintSerializer, EventSerializer
 from .models import Book,  Fine, Issued, complaint, Event
+from accounts.models import *
+from accounts.serializers import *
 # Create your views here.
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -144,7 +146,42 @@ def get_fine_user(request : Request, id ):
 #         # item  = Fine.objects.get(user_id=id)
         
 
+@api_view(['GET'])
+def convert_holds_to_issues(request:Request,book_id,user_id):
 
+    if book_id is not None:
+        try:
+            print(request.data)
+            item = Issued.objects.get(user_id = user_id, book_id=book_id)
+            item.is_issued = True
+            item.save()
+            serializer = IssuedSerializer(item)
+            return JsonResponse({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+        except :
+
+            return JsonResponse({"status": "book id not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    return JsonResponse({"status": "Book id none"},status = status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def get_library_report(request:Request):
+
+    if request.method == 'GET':
+        total_books_hold = len(Issued.objects.filter(is_issued = False))
+        total_books_issued = len(Issued.objects.filter(is_issued = True))
+        total_students = len(OurUser.objects.filter(user_type = 'ST'))
+        total_books = len(Book.objects.all())
+
+        res = {
+            'total_books' : total_books,
+            'total_books_issued'  :total_books_issued,
+            'total_books_hold' : total_books_hold,
+            'total_students' : total_students
+        }
+
+        return JsonResponse({'message' : 'success', 'data' : res}, status = status.HTTP_200_OK)
+
+    return JsonResponse({'message' : 'Error while generating Report'}, status = status.HTTP_400_BAD_REQUEST)
 
 
 
