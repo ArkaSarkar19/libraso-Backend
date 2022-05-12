@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path,include
 from . import views
 from rest_framework import routers
-from .views import RegisterAPI, LoginAPI, UserAPI
+from .views import CreateStudentAPI, RegisterAPI, LoginAPI, UserAPI
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
@@ -14,4 +14,5 @@ urlpatterns = [
     path('auth/register', RegisterAPI.as_view()),
     path('auth/login', LoginAPI.as_view()),
     path('auth/user', UserAPI.as_view()),
+    path('auth/register_new', CreateStudentAPI.as_view())
 ]

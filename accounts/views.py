@@ -14,6 +14,19 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = OurUsersSerializer
 
 
+class CreateStudentAPI(generics.GenericAPIView):
+    serializer_class=RegisterSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        return Response({
+            "user": OurUsersSerializer(user, context=self.get_serializer_context()).data,
+            "token": AuthToken.objects.create(user)[1]
+        })
+
+
 
 #Register API
 class RegisterAPI(generics.GenericAPIView):
