@@ -15,7 +15,8 @@ router.register(r'Event', views.EventViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path("userfine/<int:id>", views.get_fine_user, name = "get_fine_user"),
+    path("userfine/<int:id>/", views.get_fine_user, name = "get_fine_user"),
     path('event/<str:event_date>', views.get_event, name = "get_event"),
-    path("books/<int:id>", views.issued_books),
+    path("books/<int:id>", views.issued_books)
+    # path('userfine/update/<int:id>', views.update_fine_user)
 ]   

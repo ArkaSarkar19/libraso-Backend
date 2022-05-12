@@ -1,4 +1,5 @@
 from datetime import date
+import re
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework import generics
@@ -92,25 +93,49 @@ class GetFineAPI(generics.GenericAPIView):
         return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
 
 
-# @api_view(['GET'])    
+@api_view(['GET','PUT'])    
 def get_fine_user(request : Request, id ):
-    print("Requist from front end", request, id)
-    arr=[]
-    if id is not None:
-        item = Fine.objects.filter(user_id = id)
-        for i in item:
-           
-            temp={"amount_due":i.amount_due,"id":i.id,"amount_paid":i.amount_paid,"due_date":i.due_date,"book_id":i.book_id.ISBN,"user_id":i.user_id.id}
-            print(i.amount_due)         
-            arr.append(temp)                                  
-        # print(item)
-        # serializer = FineSerializer(item)
-        return JsonResponse({"status": "success", "data": arr}, status=status.HTTP_200_OK)
-        
-    item = Fine.objects.all().order_by('due_date')
-    serializer = FineSerializer(item)
-    return JsonResponse({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+    if request.method == 'GET' :
+        print("Requist from front end", request, id)
+        arr=[]
+        if id is not None:
+            item = Fine.objects.filter(user_id = id)
+            for i in item:
+            
+                temp={"amount_due":i.amount_due,"id":i.id,"amount_paid":i.amount_paid,"due_date":i.due_date,"book_id":i.book_id.ISBN,"user_id":i.user_id.id}
+                print(i.amount_due)         
+                arr.append(temp)                                  
+            # print(item)
+            # serializer = FineSerializer(item)
+            return JsonResponse({"status": "success", "data": arr}, status=status.HTTP_200_OK)
+            
+        item = Fine.objects.all().order_by('due_date')
+        serializer = FineSerializer(item)
+        return JsonResponse({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
     
+    if request.method == 'PUT':
+        print(request.data)
+        item =  Fine.objects.get(user_id = id, book_id =request.data.get('book_id'))
+        item.amount_due = request.data.get('amount_due')
+        item.amount_paid = request.data.get('amount_paid')
+        item.due_date = request.data.get('due_date')
+        item.save()
+        serializer = FineSerializer(item)
+
+        return JsonResponse({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+
+
+
+# @api_view(['PUT','PATCH'])
+# def update_fine_user(request:Request):
+
+#     print(request.data)
+#         # item  = Fine.objects.get(user_id=id)
+        
+
+
+
+
 
 class IssuedViewSet(viewsets.ModelViewSet):
     queryset = Issued.objects.all().order_by('due_date')
