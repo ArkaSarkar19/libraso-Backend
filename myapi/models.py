@@ -1,3 +1,4 @@
+from gettext import dpgettext
 from django.db import models
 from django.core.validators import MinLengthValidator, int_list_validator
 from django.db.models import CheckConstraint, Q
@@ -77,3 +78,16 @@ class complaint(models.Model):
     description=models.CharField(max_length=600)
     class Meta:
         db_table = 'complaint'
+
+
+
+class Event(models.Model):
+    start_time = models.CharField(null=True, max_length=100)
+    end_time = models.CharField(null=True, max_length=100)
+    title = models.CharField(null=False, max_length = 100)
+    venue = models.CharField(null = False, max_length = 100)
+    date =  models.DateTimeField(null = False)
+    description = models.CharField(max_length=300)
+    image_url = models.URLField(null=True)
+    class Meta:
+        db_table = 'event'

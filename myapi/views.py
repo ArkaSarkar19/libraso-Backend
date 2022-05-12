@@ -1,8 +1,9 @@
+from datetime import date
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework import generics
-from .serializers import BookSerializer, FineSerializer, IssuedSerializer, complaintSerializer
-from .models import Book,  Fine, Issued, complaint
+from .serializers import BookSerializer, EventSerializer, FineSerializer, IssuedSerializer, complaintSerializer, EventSerializer
+from .models import Book,  Fine, Issued, complaint, Event
 # Create your views here.
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -31,6 +32,37 @@ class FinesViewSet(viewsets.ModelViewSet):
     serializer_class = FineSerializer
 
 
+class EventViewSet(viewsets.ModelViewSet):
+    queryset = Event.objects.all().order_by('date')
+    serializer_class = EventSerializer
+
+
+
+def get_event(request :  Request, event_date):
+    arr = []
+    if event_date is not None:
+        item = Event.objects.filter(date = event_date)
+        for i in item:
+           
+            temp={"start_time":i.start_time,
+            "end_time":i.end_time,
+            "title":i.title,
+            "venue":i.venue,
+            "description":i.description,
+            "image_url":i.image_url,
+            "date" : i.date}
+            arr.append(temp)
+
+        if len(arr) > 0:
+            return JsonResponse({"status": "success", "data": arr}, status=status.HTTP_200_OK)
+        else:
+            return JsonResponse({'message': 'No Events exists'}, status=status.HTTP_404_NOT_FOUND) 
+
+    
+    return JsonResponse({'message': 'The date is not right '}, status=status.HTTP_404_NOT_FOUND) 
+  
+
+
 class GetFineAPI(generics.GenericAPIView):
 
     serializer_class = FineSerializer
@@ -45,7 +77,7 @@ class GetFineAPI(generics.GenericAPIView):
         item = Fine.objects.all().order_by('due_date')
         serializer = FineSerializer(item)
         return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
-    
+
 
 # @api_view(['GET'])    
 def get_fine_user(request : Request, id ):

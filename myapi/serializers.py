@@ -1,9 +1,10 @@
 # serializers.py
+from dataclasses import fields
 from email.policy import default
 from unittest.util import _MAX_LENGTH
 from rest_framework import serializers
 from drf_extra_fields.relations import PresentablePrimaryKeyRelatedField
-from .models import   Book, Fine,Issued,complaint
+from .models import   Book, Fine,Issued,complaint, Event
 from accounts.serializers import OurUsersSerializer, OurUsersDetailSerializer
 from accounts.models import OurUser
 
@@ -61,4 +62,9 @@ class FineSerializer(serializers.ModelSerializer):
 class IssuedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Issued
+        fields = '__all__'
+
+class EventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
         fields = '__all__'
