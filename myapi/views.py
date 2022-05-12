@@ -104,6 +104,13 @@ class IssuedViewSet(viewsets.ModelViewSet):
     serializer_class = IssuedSerializer
 
 
+
+# class EventRegister(generics.GenericAPIView):
+#     """
+#     API for registering events. 
+#     """
+
+
 @api_view(['GET', 'POST'])
 def issued_books(request,id):
     """

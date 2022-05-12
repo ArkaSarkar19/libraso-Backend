@@ -86,8 +86,10 @@ class Event(models.Model):
     end_time = models.CharField(null=True, max_length=100)
     title = models.CharField(null=False, max_length = 100)
     venue = models.CharField(null = False, max_length = 100)
-    date =  models.DateTimeField(null = False)
+    date =  models.DateField(null = False)
     description = models.CharField(max_length=300)
     image_url = models.URLField(null=True)
     class Meta:
         db_table = 'event'
+
+

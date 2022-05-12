@@ -18,6 +18,16 @@ class complaintSerializer(serializers.ModelSerializer):
         model = complaint
         fields = '__all__'
 
+
+class EventRegiterSerializer(serializers.ModelSerializer):
+    class Meta:
+
+        model = Event
+        fields = '__all__'
+    
+    # def create(self, obj):
+
+
 class BookSerializer(serializers.ModelSerializer):
 
     title=serializers.CharField(max_length=60)
