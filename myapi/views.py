@@ -60,7 +60,20 @@ def get_event(request :  Request, event_date):
 
     
     return JsonResponse({'message': 'The date is not right '}, status=status.HTTP_404_NOT_FOUND) 
-  
+
+
+# class EventView(generics.CreateAPIView):
+
+#     def create_event(self,sende)
+
+# @api_view(['POST'])
+# def create_event(request):
+#     if request.method == 'POST':
+#         print("here")
+#         print(request.data)
+#         return Response({"message": "Got some data!", "data": request.data})
+#     return Response({"message": "Hello, world!"})
+
 
 
 class GetFineAPI(generics.GenericAPIView):

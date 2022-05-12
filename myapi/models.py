@@ -91,5 +91,5 @@ class Event(models.Model):
     image_url = models.URLField(null=True)
     class Meta:
         db_table = 'event'
-
+    
 
