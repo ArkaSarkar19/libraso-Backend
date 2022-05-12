@@ -93,6 +93,18 @@ class GetFineAPI(generics.GenericAPIView):
         return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
 
 
+@api_view(['PUT'])
+def update_complaint(request:Request, id):
+    if request.method == 'PUT':
+        item =  complaint.objects.get(id = id)
+        item.status = request.data.get('status')
+        item.save()
+        # serializer = complaintViewSet(item)
+
+        return JsonResponse({"status": "success"}, status=status.HTTP_200_OK)
+    return JsonResponse({"status": "invalid query"}, status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(['GET','PUT'])    
 def get_fine_user(request : Request, id ):
     if request.method == 'GET' :
@@ -114,7 +126,6 @@ def get_fine_user(request : Request, id ):
         return JsonResponse({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
     
     if request.method == 'PUT':
-        print(request.data)
         item =  Fine.objects.get(user_id = id, book_id =request.data.get('book_id'))
         item.amount_due = request.data.get('amount_due')
         item.amount_paid = request.data.get('amount_paid')

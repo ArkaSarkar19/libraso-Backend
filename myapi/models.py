@@ -76,6 +76,7 @@ class complaint(models.Model):
     user_id = models.ForeignKey(OurUser, on_delete=models.CASCADE,db_column = "user_id")
     title = models.CharField(max_length=300)
     description=models.CharField(max_length=600)
+    status = models.BooleanField(default=False)
     class Meta:
         db_table = 'complaint'
 
@@ -91,5 +92,5 @@ class Event(models.Model):
     image_url = models.URLField(null=True)
     class Meta:
         db_table = 'event'
-    
+
 
