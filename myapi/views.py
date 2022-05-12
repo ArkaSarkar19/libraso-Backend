@@ -168,8 +168,8 @@ def convert_holds_to_issues(request:Request,book_id,user_id):
 def get_library_report(request:Request):
 
     if request.method == 'GET':
-        total_books_hold = len(Issued.objects.filter(is_issued = False))
-        total_books_issued = len(Issued.objects.filter(is_issued = True))
+        total_books_hold = len(Issued.objects.filter(is_issued = False).values('book_id').distinct())
+        total_books_issued = len(Issued.objects.filter(is_issued = True).values('book_id').distinct())
         total_students = len(OurUser.objects.filter(user_type = 'ST'))
         total_books = len(Book.objects.all())
 
