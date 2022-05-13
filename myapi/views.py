@@ -157,8 +157,8 @@ def convert_holds_to_issues(request:Request,book_id,user_id):
             item = Issued.objects.get(user_id = user_id, book_id=book_id)
             item.is_issued = True
             item.save()
-            serializer = IssuedSerializer(item)
-            return JsonResponse({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+            # serializer = IssuedSerializer(item)
+            return JsonResponse({"status": "success"}, status=status.HTTP_200_OK)
         except :
 
             return JsonResponse({"status": "book id not found"}, status=status.HTTP_404_NOT_FOUND)
