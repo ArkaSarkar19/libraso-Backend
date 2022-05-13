@@ -96,9 +96,9 @@ class GetFineAPI(generics.GenericAPIView):
         return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
 
 
-@api_view(['POST'])
+@api_view(['GET'])
 def update_complaint(request:Request, id):
-    if request.method == 'POST':
+    if request.method == 'GET':
         item =  complaint.objects.get(id = id)
         item.status = request.data.get('status')
         item.save()
@@ -106,6 +106,7 @@ def update_complaint(request:Request, id):
 
         return JsonResponse({"status": "success"}, status=status.HTTP_200_OK)
     return JsonResponse({"status": "invalid query"}, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 @api_view(['GET','PUT'])    
