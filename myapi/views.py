@@ -100,7 +100,7 @@ class GetFineAPI(generics.GenericAPIView):
 def update_complaint(request:Request, id):
     if request.method == 'GET':
         item =  complaint.objects.get(id = id)
-        item.status = request.data.get('status')
+        item.status = True
         item.save()
         # serializer = complaintViewSet(item)
 
