@@ -19,6 +19,6 @@ urlpatterns = [
     path('event/<str:event_date>', views.get_event, name = "get_event"),
     path("books/<int:id>", views.issued_books),
     path("complaint/resolve/<int:id>", views.update_complaint),
-    path('holds/<int:book_id>/<int:user_id>', views.convert_holds_to_issues),
+    path('holds/<str:book_id>/<int:user_id>', views.convert_holds_to_issues),
     path('report', views.get_library_report)
 ]   
